@@ -28,7 +28,7 @@ commands:
             docker build -t << parameters.project_name >> -f << parameters.dockerfile_path >> .
 
 jobs:
-  build:
+  build-model:
     docker:
       - image: circleci/python:3.6.4
     steps:
@@ -42,7 +42,7 @@ jobs:
 workflows:
   test_build_deploy:
     jobs:
-      - build:
+      - build-model:
           filters:
             branches:
               only:
