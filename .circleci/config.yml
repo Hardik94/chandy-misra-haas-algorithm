@@ -39,11 +39,11 @@ jobs:
           project_name: ext-devops
           dockerfile_path: ./contact_ranking.Dockerfile
 
-workflows:
-  welcome:
-    jobs:
-      - welcome/run:
-          filters:
-            branches:
-              only:
-                - master
+#workflows:
+#  welcome:
+#    jobs:
+#      - welcome:
+#          filters:
+#            branches:
+#              only:
+#                - master
