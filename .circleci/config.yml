@@ -28,7 +28,7 @@ commands:
             docker build -t << parameters.project_name >> -f << parameters.dockerfile_path >> .
 
 jobs:
-  build-model:
+  welcome:
     docker:
       - image: circleci/python:3.6.4
     steps:
@@ -40,9 +40,9 @@ jobs:
           dockerfile_path: ./contact_ranking.Dockerfile
 
 workflows:
-  test_build_deploy:
+  welcome:
     jobs:
-      - build-model:
+      - welcome/run:
           filters:
             branches:
               only:
