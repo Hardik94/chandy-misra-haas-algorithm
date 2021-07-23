@@ -5,9 +5,44 @@ orbs:
   # Declare a dependency on the welcome-orb
   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
+#workflows:
+#  # Name the workflow "welcome"
+#  welcome:
+#    # Run the welcome/run job in its own container
+#    jobs:
+#      - welcome/run
+commands:
+  build-docker-image:
+    description: Build docker image for a model and update to GCR.
+    parameters:
+      project_name:
+        type: string
+      dockerfile_path:
+        type: string
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build docker image
+          command: |
+            docker build -t << parameters.project_name >> -f << parameters.dockerfile_path >> .
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - checkout
+      - build-docker-image:
+          project_name: ext-devops
+          dockerfile_path: ./contact_ranking.Dockerfile
+
 workflows:
-  # Name the workflow "welcome"
-  welcome:
-    # Run the welcome/run job in its own container
+  test_build_deploy:
     jobs:
-      - welcome/run
+      - build:
+          context: k8s
+          filters:
+            branches:
+              only:
+                - master
