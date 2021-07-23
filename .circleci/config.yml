@@ -41,7 +41,6 @@ workflows:
   test_build_deploy:
     jobs:
       - build:
-          context: k8s
           filters:
             branches:
               only:
